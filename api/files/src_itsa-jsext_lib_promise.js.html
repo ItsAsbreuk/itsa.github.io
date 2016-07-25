@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/js-ext/lib/promise.js - Itsa</title>
+    <title>src/itsa-jsext/lib/promise.js - Itsa</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -42,10 +42,6 @@
             <ul id="api-classes" class="apis classes">
             
                 <li><a href="../classes/Array.html">Array</a></li>
-            
-                <li><a href="../classes/BaseClass.html">BaseClass</a></li>
-            
-                <li><a href="../classes/Classes.html">Classes</a></li>
             
                 <li><a href="../classes/Constrain.html">Constrain</a></li>
             
@@ -163,8 +159,6 @@
             
                 <li><a href="../modules/extend-element.html">extend-element</a></li>
             
-                <li><a href="../modules/extra_classes.js.html">extra/classes.js</a></li>
-            
                 <li><a href="../modules/focusmanager.html">focusmanager</a></li>
             
                 <li><a href="../modules/html-parser.html">html-parser</a></li>
@@ -268,7 +262,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/js-ext/lib/promise.js</h1>
+                        <h1 class="file-heading">File: src/itsa-jsext/lib/promise.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -287,13 +281,10 @@
  * @class Promise
 */
 
-require(&#x27;polyfill/polyfill-base.js&#x27;);
-require(&#x27;polyfill/lib/promise.js&#x27;); // need promises
 
-var NAME = &#x27;[promise-ext]: &#x27;,
-    FUNCTION_EXPECTED = &#x27; expects an array of function-references&#x27;, // include leading space!
-    later = require(&#x27;utils&#x27;).later,
-    PROMISE_CHAIN = &#x27;Promise.chain&#x27;;
+var FUNCTION_EXPECTED = &quot; expects an array of function-references&quot;, // include leading space
+    FUNCTION = &quot;function&quot;,
+    PROMISE_CHAIN = &quot;Promise.chain&quot;;
 
 (function(PromisePrototype) {
     /**
@@ -302,18 +293,17 @@ var NAME = &#x27;[promise-ext]: &#x27;,
      *
      * The argument of the callback will be either its fulfilled or rejected argument, but
      * it is wisely not to handle it. The results should have been handled in an earlier step
-     * of the chain: .finally() basicly means you want to execute code after the chain, regardless
+     * of the chain: .itsa_finally() basicly means you want to execute code after the chain, regardless
      * whether it&#x27;s resolved or rejected.
      *
-     * **Note:** .finally() &lt;u&gt;does not return a Promise&lt;/u&gt;: it should be used as the very last step of a Promisechain.
-     * If you need an intermediate method, you should take .thenFulfill().
+     * **Note:** .itsa_finally() &lt;u&gt;does not return a Promise&lt;/u&gt;: it should be used as the very last step of a Promisechain.
+     * If you need an intermediate method, you should take .itsa_fulfillThen().
      *
-     * @method finally
-     * @param finallyback {Function} the callbackfunctio to be invoked.
+     * @method itsa_finally
+     * @param finallyback {Function} the callback-function to be invoked.
      * @return {Promise}
      */
-    PromisePrototype.finally = function (finallyback) {
-        console.log(NAME, &#x27;finally&#x27;);
+    PromisePrototype.itsa_finally = function (finallyback) {
         return this.then(finallyback, finallyback);
     };
 
@@ -327,16 +317,15 @@ var NAME = &#x27;[promise-ext]: &#x27;,
      *
      * promise1
      * .then(promise2)
-     * .thenFulfill()
+     * .itsa_fulfillThen()
      * .then(handleFulfilled, handleRejected) // handleFulfilled always gets invoked
-     * @method thenFulfill
+     * @method itsa_fulfillThen
      * @param [response] {Object} parameter to pass through which overrules the original Promise-response.
      * @return {Promise} Resolved Promise. &#x60;response&#x60; will be passed trough as parameter when set.
      *         When not set: in case the original Promise resolved, its parameter is passed through.
      *         in case of a rejection, no parameter will be passed through.
      */
-    PromisePrototype.thenFulfill = function (callback) {
-        console.log(NAME, &#x27;thenFulfill&#x27;);
+    PromisePrototype.itsa_fulfillThen = function (callback) {
         return this.then(
             function(r) {
                 return r;
@@ -355,7 +344,7 @@ var NAME = &#x27;[promise-ext]: &#x27;,
  * requests in the browser. Because -on the contrary of &#x60;Promise.all&#x60;- **finishAll** waits until
  * all single Promises are resolved, you can handle all promises, even if some gets rejected.
  *
- * @method finishAll
+ * @method itsa_finishAll
  * @param items {Any[]} an array of any kind of items, promises or not. If a value is not a promise,
  * its transformed into a resolved promise.
  * @return {Promise} A promise for an array of all the fulfillment items:
@@ -370,8 +359,7 @@ var NAME = &#x27;[promise-ext]: &#x27;,
  * &lt;/ul&gt;
  * @static
  */
-Promise.finishAll = function (items) {
-    console.log(NAME, &#x27;finishAll&#x27;);
+Promise.itsa_finishAll = function (items) {
     return new Promise(function (fulfill) {
         // Array.isArray assumes ES5
         Array.isArray(items) || (items=[items]);
@@ -387,7 +375,6 @@ Promise.finishAll = function (items) {
                 fulfilled ? (fulfilledresults[index]=value) : (rejectedresults[index]=value);
                 remaining--;
                 if (!remaining) {
-                    console.log(NAME, &#x27;finishAll is fulfilled&#x27;);
                     fulfill({
                         fulfilled: fulfilledresults,
                         rejected: rejectedresults
@@ -397,7 +384,6 @@ Promise.finishAll = function (items) {
         }
 
         if (length &lt; 1) {
-            console.warn(NAME, &#x27;finishAll fulfilles immediately: no items&#x27;);
             return fulfill({
                         fulfilled: fulfilledresults,
                         rejected: rejectedresults
@@ -460,7 +446,7 @@ Promise.finishAll = function (items) {
  *     a.push(p1.bind(undefined, 100));
  *     a.push(p2.bind(undefined, 200));
  *     a.push(p3.bind(undefined, 300));
- *     Promise.chainFns(a).then(
+ *     Promise.itsa_chainFns(a).then(
  *         function(r) {
  *             console.log(&#x27;chain resolved with &#x27;+r);
  *         },
@@ -469,7 +455,7 @@ Promise.finishAll = function (items) {
  *         }
  *     );
  *
- * @method chainFns
+ * @method itsa_chainFns
  * @param funcs {function[]} an array of function-references
  * @param [finishAll=false] {boolean} to force the chain to continue, even if one of the functions
  *        returns a rejected Promise
@@ -480,8 +466,7 @@ Promise.finishAll = function (items) {
     * reason {Error}
  * @static
  */
-Promise.chainFns = function (funcs, finishAll) {
-    console.log(NAME, &#x27;chainFns&#x27;);
+Promise.itsa_chainFns = function (funcs, finishAll) {
     var handleFn, length, handlePromiseChain, promiseErr,
         i = 0;
     // Array.isArray assumes ES5
@@ -490,7 +475,7 @@ Promise.chainFns = function (funcs, finishAll) {
     handleFn = function() {
         var nextFn = funcs[i],
             promise;
-        if (typeof nextFn !== &#x27;function&#x27;) {
+        if (typeof nextFn !== FUNCTION) {
             return Promise.reject(new TypeError(PROMISE_CHAIN+FUNCTION_EXPECTED));
         }
         promise = Promise.resolve(nextFn.apply(null, arguments));
@@ -507,10 +492,10 @@ Promise.chainFns = function (funcs, finishAll) {
         return handleFn.apply(null, arguments).then((++i&lt;length) ? handlePromiseChain : undefined);
     };
     return handlePromiseChain().then(function(response) {
-        if (promiseErr) {
-            throw new Error(promiseErr);
-        }
-        return response;
+        // if (promiseErr) {
+        //     throw new Error(promiseErr);
+        // }
+        return promiseErr || response;
     });
 };
 
@@ -532,7 +517,7 @@ Promise.chainFns = function (funcs, finishAll) {
  * called, it will be applied after this specified time.
  *
  * @example
- *     var promise = Promise.manage(
+ *     var promise = Promise.itsa_manage(
  *         function(msg) {
  *             alert(msg);
  *         }
@@ -552,15 +537,14 @@ Promise.chainFns = function (funcs, finishAll) {
  *         promise.fulfill();
  *     }, 2000);
  *
- * @method manage
+ * @method itsa_manage
  * @param [callbackFn] {Function} invoked everytime promiseinstance.callback() is called.
  *        You may as weel (re)set this method atny time lare by using promise.setCallback()
  * @param [stayActive=false] {Boolean} specified time to wait before the promise really gets resolved
  * @return {Promise} with three handles: fulfill, reject and callback.
  * @static
  */
-Promise.manage = function (callbackFn, stayActive) {
-    console.log(NAME, &#x27;manage&#x27;);
+Promise.itsa_manage = function (callbackFn, stayActive) {
     var fulfillHandler, rejectHandler, promise, finished, stayActivePromise,
         resolved, isFulfilled, isRejected;
 
@@ -571,7 +555,6 @@ Promise.manage = function (callbackFn, stayActive) {
 
     promise.fulfill = function (value) {
         if (!resolved) {
-            console.log(NAME, &#x27;manage.fulfill&#x27;);
             resolved = true;
             if (stayActivePromise) {
                 stayActivePromise.then(function() {
@@ -588,7 +571,6 @@ Promise.manage = function (callbackFn, stayActive) {
 
     promise.reject = function (reason) {
         if (!resolved) {
-            console.log(NAME, &#x27;manage.reject &#x27;+((typeof reason===&#x27;string&#x27;) ? reason : reason &amp;&amp; (reason.message || reason.description)));
             resolved = true;
             if (stayActivePromise) {
                 stayActivePromise.then(function() {
@@ -617,13 +599,12 @@ Promise.manage = function (callbackFn, stayActive) {
 
     promise.stayActive = function (time) {
         stayActivePromise = new Promise(function (fulfill) {
-            later(fulfill, time);
+            setTimeout(fulfill, time);
         });
     };
 
     promise.callback = function () {
         if (!finished &amp;&amp; callbackFn) {
-            console.log(NAME, &#x27;manage.callback is invoked&#x27;);
             callbackFn.apply(undefined, arguments);
         }
     };

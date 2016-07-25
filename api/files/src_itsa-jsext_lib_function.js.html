@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/js-ext/lib/math.js - Itsa</title>
+    <title>src/itsa-jsext/lib/function.js - Itsa</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -42,10 +42,6 @@
             <ul id="api-classes" class="apis classes">
             
                 <li><a href="../classes/Array.html">Array</a></li>
-            
-                <li><a href="../classes/BaseClass.html">BaseClass</a></li>
-            
-                <li><a href="../classes/Classes.html">Classes</a></li>
             
                 <li><a href="../classes/Constrain.html">Constrain</a></li>
             
@@ -163,8 +159,6 @@
             
                 <li><a href="../modules/extend-element.html">extend-element</a></li>
             
-                <li><a href="../modules/extra_classes.js.html">extra/classes.js</a></li>
-            
                 <li><a href="../modules/focusmanager.html">focusmanager</a></li>
             
                 <li><a href="../modules/html-parser.html">html-parser</a></li>
@@ -268,67 +262,63 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/js-ext/lib/math.js</h1>
+                        <h1 class="file-heading">File: src/itsa-jsext/lib/function.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
  *
- * Extension of Math
+ * Pollyfils for often used functionality for Functions
  *
  * &lt;i&gt;Copyright (c) 2014 ITSA - https://github.com/itsa&lt;/i&gt;
  * New BSD License - http://choosealicense.com/licenses/bsd-3-clause/
  *
  * @module js-ext
- * @submodule lib/math.js
- * @class Math
+ * @submodule lib/function.js
+ * @class Function
  *
- */
+*/
 
 &quot;use strict&quot;;
 
-require(&#x27;polyfill/polyfill-base.js&#x27;);
+(function(FunctionPrototype) {
+    /**
+     * Sets the context of which the function will be execute. in the
+     * supplied object&#x27;s context, optionally adding any additional
+     * supplied parameters to the end of the arguments the function
+     * is executed with.
+     *
+     * @method itsa_rbind
+     * @param [context] {Object} the execution context.
+     *        The value is ignored if the bound function is constructed using the new operator.
+     * @param [args*] {any} args* 0..n arguments to append to the end of
+     *        arguments collection supplied to the function.
+     * @return {function} the wrapped function.
+     */
+    FunctionPrototype.itsa_rbind = function (context /*, args* */ ) {
+        var thisFunction = this,
+            arrayArgs,
+            slice = Array.prototype.slice;
+        context || (context = this);
+        if (arguments.length &gt; 1) {
+            // removing &#x60;context&#x60; (first item) by slicing it out:
+            arrayArgs = slice.call(arguments, 1);
+        }
 
-/**
- * Returns the value, while forcing it to be inbetween the specified edges.
- *
- * @method inbetween
- * @param min {Number} lower-edgde
- * @param value {Number} the original value that should be inbetween the edges
- * @param max {Number} upper-edgde
- * @param [absoluteValue] {boolean} whether &#x60;value&#x60; should be treaded as an absolute value
- * @return {Number|undefined} the value, forced to be inbetween the edges. Returns &#x60;undefined&#x60; if &#x60;max&#x60; is lower than &#x60;min&#x60;.
- */
-Math.inbetween = function(min, value, max, absoluteValue) {
-    var val = absoluteValue ? Math.abs(value) : value;
-    return (max&gt;=min) ? this.min(max, this.max(min, val)) : undefined;
-};
+        return (arrayArgs ?
+            function () {
+                // over here, &#x60;arguments&#x60; will be the &quot;new&quot; arguments when the final function is called!
+                return thisFunction.apply(context, slice.call(arguments, 0).concat(arrayArgs));
+            } :
+            function () {
+                // over here, &#x60;arguments&#x60; will be the &quot;new&quot; arguments when the final function is called!
+                return thisFunction.apply(context, arguments);
+            }
+        );
+    };
 
-/**
- * Floors a value in the direction to zero. Native Math.floor does this for positive values,
- * but negative values are floored more into the negative (Math.floor(-2.3) === -3).
- * This method floores into the direction of zero: (Math.floorToZero(-2.3) === -2)
- *
- * @method floorToZero
- * @param value {Number} the original value that should be inbetween the edges
- * @return {Number} the floored value
- */
-Math.floorToZero = function(value) {
-    return (value&gt;=0) ? Math.floor(value) : Math.ceil(value);
-};
+}(Function.prototype));
 
-/**
- * Ceils a value from zero up. Native Math.ceil does this for positive values,
- * but negative values are ceiled more into the less negative (Math.ceil(-2.3) === -2).
- * This method ceiles up from zero: (Math.ceilFromZero(-2.3) === -3)
- *
- * @method ceilFromZero
- * @param value {Number} the original value that should be inbetween the edges
- * @return {Number} the floored value
- */
-Math.ceilFromZero = function(value) {
-    return (value&gt;=0) ? Math.ceil(value) : Math.floor(value);
-};
     </pre>
 </div>
 

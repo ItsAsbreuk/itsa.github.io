@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/js-ext/lib/json.js - Itsa</title>
+    <title>src/itsa-jsext/lib/math.js - Itsa</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -42,10 +42,6 @@
             <ul id="api-classes" class="apis classes">
             
                 <li><a href="../classes/Array.html">Array</a></li>
-            
-                <li><a href="../classes/BaseClass.html">BaseClass</a></li>
-            
-                <li><a href="../classes/Classes.html">Classes</a></li>
             
                 <li><a href="../classes/Constrain.html">Constrain</a></li>
             
@@ -163,8 +159,6 @@
             
                 <li><a href="../modules/extend-element.html">extend-element</a></li>
             
-                <li><a href="../modules/extra_classes.js.html">extra/classes.js</a></li>
-            
                 <li><a href="../modules/focusmanager.html">focusmanager</a></li>
             
                 <li><a href="../modules/html-parser.html">html-parser</a></li>
@@ -268,97 +262,64 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/js-ext/lib/json.js</h1>
+                        <h1 class="file-heading">File: src/itsa-jsext/lib/math.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
 /**
  *
- * Pollyfils for often used functionality for Arrays
+ * Extension of Math
  *
  * &lt;i&gt;Copyright (c) 2014 ITSA - https://github.com/itsa&lt;/i&gt;
  * New BSD License - http://choosealicense.com/licenses/bsd-3-clause/
  *
  * @module js-ext
- * @submodule lib/json.js
- * @class JSON
+ * @submodule lib/math.js
+ * @class Math
  *
  */
 
 &quot;use strict&quot;;
 
-require(&#x27;polyfill/polyfill-base.js&#x27;);
-require(&#x27;./object.js&#x27;);
-
-
-var REVIVER = function(key, value) {
-     return ((typeof value===&#x27;string&#x27;) &amp;&amp; value.toDate()) || value;
-    },
-    objectStringToDates, arrayStringToDates;
-
-objectStringToDates = function(obj) {
-    var date;
-    obj.each(function(value, key) {
-        if (typeof value===&#x27;string&#x27;) {
-            (date=value.toDate()) &amp;&amp; (obj[key]=date);
-        }
-        else if (Object.isObject(value)) {
-            objectStringToDates(value);
-        }
-        else if (Array.isArray(value)) {
-            arrayStringToDates(value);
-        }
-    });
-};
-
-arrayStringToDates = function(array) {
-    var i, len, arrayItem, date;
-    len = array.length;
-    for (i=0; i&lt;len; i++) {
-        arrayItem = array[i];
-        if (typeof arrayItem===&#x27;string&#x27;) {
-            (date=arrayItem.toDate()) &amp;&amp; (array[i]=date);
-        }
-        else if (Object.isObject(arrayItem)) {
-            objectStringToDates(arrayItem);
-        }
-        else if (Array.isArray(arrayItem)) {
-            arrayStringToDates(arrayItem);
-        }
-    }
-};
-
 /**
- * Parses a stringified object and creates true &#x60;Date&#x60; properties.
+ * Returns the value, while forcing it to be inbetween the specified edges.
  *
- * @method parseWithDate
- * @param stringifiedObj {Number} lower-edgde
+ * @method itsa_inbetween
+ * @param min {Number} lower-edgde
+ * @param value {Number} the original value that should be inbetween the edges
+ * @param max {Number} upper-edgde
+ * @param [absoluteValue] {boolean} whether &#x60;value&#x60; should be treaded as an absolute value
  * @return {Number|undefined} the value, forced to be inbetween the edges. Returns &#x60;undefined&#x60; if &#x60;max&#x60; is lower than &#x60;min&#x60;.
  */
-JSON.parseWithDate = function(stringifiedObj) {
-    return this.parse(stringifiedObj, REVIVER);
+Math.itsa_inbetween = function(min, value, max, absoluteValue) {
+    var val = absoluteValue ? Math.abs(value) : value;
+    return (max&gt;=min) ? this.min(max, this.max(min, val)) : undefined;
 };
 
 /**
-* Transforms &#x60;String&#x60;-properties into true Date-objects in case they match the Date-syntax.
-* To be used whenever you have parsed a JSON.stringified object without a Date-reviver.
-*
-* @method isObject
-* @param item {Object|Array} the JSON-parsed object which the date-string fields should be transformed into Dates.
-* @param clone {Boolean=false} whether to clone &#x60;item&#x60; and leave it unspoiled. Cloning means a performancehit,
-* better leave it &#x60;false&#x60;, which will lead into changing &#x60;item&#x60; which in fact will equal the returnvalue.
-* @static
-* @return {Object|Array} the transormed item
-*/
-JSON.stringToDates = function (item, clone) {
-    var newItem = clone ? item.deepClone() : item;
-    if (Object.isObject(newItem)) {
-        objectStringToDates(newItem);
-    }
-    else if (Array.isArray(newItem)) {
-        arrayStringToDates(newItem);
-    }
-    return newItem;
+ * Floors a value in the direction to zero. Native Math.floor does this for positive values,
+ * but negative values are floored more into the negative (Math.floor(-2.3) === -3).
+ * This method floores into the direction of zero: (Math.itsa_floorToZero(-2.3) === -2)
+ *
+ * @method itsa_floorToZero
+ * @param value {Number} the original value that should be inbetween the edges
+ * @return {Number} the floored value
+ */
+Math.itsa_floorToZero = function(value) {
+    return (value&gt;=0) ? Math.floor(value) : Math.ceil(value);
+};
+
+/**
+ * Ceils a value from zero up. Native Math.ceil does this for positive values,
+ * but negative values are ceiled more into the less negative (Math.ceil(-2.3) === -2).
+ * This method ceiles up from zero: (Math.itsa_ceilFromZero(-2.3) === -3)
+ *
+ * @method itsa_ceilFromZero
+ * @param value {Number} the original value that should be inbetween the edges
+ * @return {Number} the floored value
+ */
+Math.itsa_ceilFromZero = function(value) {
+    return (value&gt;=0) ? Math.ceil(value) : Math.floor(value);
 };
     </pre>
 </div>

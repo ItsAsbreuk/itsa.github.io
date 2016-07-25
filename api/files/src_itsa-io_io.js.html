@@ -43,10 +43,6 @@
             
                 <li><a href="../classes/Array.html">Array</a></li>
             
-                <li><a href="../classes/BaseClass.html">BaseClass</a></li>
-            
-                <li><a href="../classes/Classes.html">Classes</a></li>
-            
                 <li><a href="../classes/Constrain.html">Constrain</a></li>
             
                 <li><a href="../classes/DB.html">DB</a></li>
@@ -162,8 +158,6 @@
                 <li><a href="../modules/extend-document.html">extend-document</a></li>
             
                 <li><a href="../modules/extend-element.html">extend-element</a></li>
-            
-                <li><a href="../modules/extra_classes.js.html">extra/classes.js</a></li>
             
                 <li><a href="../modules/focusmanager.html">focusmanager</a></li>
             
@@ -335,6 +329,8 @@ module.exports = function (window) {
         //===============================================================================================
 
         _xhrList: [],
+
+        _runningRequests: [],
 
         /**
          * Initializes the xhr-instance, based on the config-params.
@@ -530,6 +526,17 @@ module.exports = function (window) {
         },
 
         /**
+         * Aborts all running io-requests
+        */
+        abortAll: function() {
+            var instance = this;
+            instance._runningRequests.forEach(function(promise) {
+                promise.abort();
+            });
+            instance._runningRequests.length = 0;
+        },
+
+        /**
          * Sends a HTTP request to the server and returns a Promise with an additional .abort() method to cancel the request.
          * This method is the standard way of doing xhr-requests without processing streams.
          *
@@ -590,6 +597,13 @@ module.exports = function (window) {
             });
 
             instance._initXHR(xhr, options, promise);
+
+            // add to interbal hash:
+            instance._runningRequests.push(promise);
+            // remove it when ready:
+            promise.finally(function() {
+                instance._runningRequests.remove(promise);
+            });
 
             return promise;
         }

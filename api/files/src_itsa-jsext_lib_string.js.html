@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>src/js-ext/lib/string.js - Itsa</title>
+    <title>src/itsa-jsext/lib/string.js - Itsa</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -42,10 +42,6 @@
             <ul id="api-classes" class="apis classes">
             
                 <li><a href="../classes/Array.html">Array</a></li>
-            
-                <li><a href="../classes/BaseClass.html">BaseClass</a></li>
-            
-                <li><a href="../classes/Classes.html">Classes</a></li>
             
                 <li><a href="../classes/Constrain.html">Constrain</a></li>
             
@@ -163,8 +159,6 @@
             
                 <li><a href="../modules/extend-element.html">extend-element</a></li>
             
-                <li><a href="../modules/extra_classes.js.html">extra/classes.js</a></li>
-            
                 <li><a href="../modules/focusmanager.html">focusmanager</a></li>
             
                 <li><a href="../modules/html-parser.html">html-parser</a></li>
@@ -268,7 +262,7 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-                        <h1 class="file-heading">File: src/js-ext/lib/string.js</h1>
+                        <h1 class="file-heading">File: src/itsa-jsext/lib/string.js</h1>
 
 <div class="file">
     <pre class="code prettyprint linenums">
@@ -291,73 +285,72 @@
     var SUBREGEX  = /\{\s*([^|}]+?)\s*(?:\|([^}]*))?\s*\}/g,
         DATEPATTERN = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/,
         WHITESPACE_CLASS = &quot;[\\s\uFEFF\xA0]+&quot;,
-        TRIM_LEFT_REGEX  = new RegExp(&#x27;^&#x27; + WHITESPACE_CLASS),
-        TRIM_RIGHT_REGEX = new RegExp(WHITESPACE_CLASS + &#x27;$&#x27;),
-        TRIMREGEX        = new RegExp(TRIM_LEFT_REGEX.source + &#x27;|&#x27; + TRIM_RIGHT_REGEX.source, &#x27;g&#x27;),
-        PATTERN_EMAIL = new RegExp(&#x27;^[\\w!#$%&amp;\&#x27;*+/=?&#x60;{|}~^-]+(?:\\.[\\w!#$%&amp;\&#x27;*+/=?&#x60;{|}~^-]+)*@(?:[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]\\.)+[a-zA-Z]{2,}$&#x27;),
-        PATTERN_URLEND = &#x27;([a-zA-Z0-9]+\\.)*(?:[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]\\.)+[a-zA-Z]{2,}(/[\\w-]+)*$&#x27;,
-        PATTERN_URLHTTP = new RegExp(&#x27;^http://&#x27;+PATTERN_URLEND),
-        PATTERN_URLHTTPS = new RegExp(&#x27;^https://&#x27;+PATTERN_URLEND),
-        PATTERN_URL = new RegExp(&#x27;^(https?://)?&#x27;+PATTERN_URLEND),
+        TRIM_LEFT_REGEX  = new RegExp(&quot;^&quot; + WHITESPACE_CLASS),
+        TRIM_RIGHT_REGEX = new RegExp(WHITESPACE_CLASS + &quot;$&quot;),
+        TRIMREGEX        = new RegExp(TRIM_LEFT_REGEX.source + &quot;|&quot; + TRIM_RIGHT_REGEX.source, &quot;g&quot;),
+        PATTERN_EMAIL = new RegExp(&quot;^[\\w!#$%&amp;&#x27;*+/=?&#x60;{|}~^-]+(?:\\.[\\w!#$%&amp;&#x27;*+/=?&#x60;{|}~^-]+)*@(?:[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]\\.)+[a-zA-Z]{2,}$&quot;),
+        PATTERN_URLEND = &quot;([a-zA-Z0-9]+\\.)*(?:[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]\\.)+[a-zA-Z]{2,}(/[\\w-]+)*$&quot;,
+        PATTERN_URLHTTP = new RegExp(&quot;^http://&quot;+PATTERN_URLEND),
+        PATTERN_URLHTTPS = new RegExp(&quot;^https://&quot;+PATTERN_URLEND),
+        PATTERN_URL = new RegExp(&quot;^(https?://)?&quot;+PATTERN_URLEND),
         PATTERN_INTEGER = /^(([-]?[1-9][0-9]*)|0)$/,
-        PATTERN_FLOAT_START = &#x27;^([-]?(([1-9][0-9]*)|0))?(\\&#x27;,
-        PATTERN_FLOAT_END = &#x27;[0-9]+)?$&#x27;,
-        PATTERN_FLOAT_COMMA = new RegExp(PATTERN_FLOAT_START + &#x27;,&#x27; + PATTERN_FLOAT_END),
-        PATTERN_FLOAT_DOT = new RegExp(PATTERN_FLOAT_START + &#x27;.&#x27; + PATTERN_FLOAT_END),
+        PATTERN_FLOAT_START = &quot;^([-]?(([1-9][0-9]*)|0))?(\\&quot;,
+        PATTERN_FLOAT_END = &quot;[0-9]+)?$&quot;,
+        PATTERN_FLOAT_COMMA = new RegExp(PATTERN_FLOAT_START + &quot;,&quot; + PATTERN_FLOAT_END),
+        PATTERN_FLOAT_DOT = new RegExp(PATTERN_FLOAT_START + &quot;.&quot; + PATTERN_FLOAT_END),
         PATTERN_HEX_COLOR_ALPHA = /^#?[0-9A-F]{4}([0-9A-F]{4})?$/,
-        PATTERN_HEX_COLOR = /^#?[0-9A-F]{3}([0-9A-F]{3})?$/,
-        replaceBKP;
+        PATTERN_HEX_COLOR = /^#?[0-9A-F]{3}([0-9A-F]{3})?$/;
 
     /**
      * Checks whether the substring is part if this String.
      * Alias for (String.indexOf(substring) &gt; -1)
      *
-     * @method contains
+     * @method itsa_contains
      * @param substring {String} the substring to test for
      * @param [caseInsensitive=false] {Boolean} whether to ignore case-sensivity
      * @return {Boolean} whether the substring is found
      */
-    String.contains || (StringPrototype.contains=function(substring, caseInsensitive) {
+    StringPrototype.itsa_contains = function(substring, caseInsensitive) {
         return caseInsensitive ? (this.toLowerCase().indexOf(substring.toLowerCase()) &gt; -1) : (this.indexOf(substring) &gt; -1);
-    });
+    };
 
     /**
      * Checks if the string ends with the value specified by &#x60;test&#x60;
      *
-     * @method endsWith
+     * @method itsa_endsWith
      * @param test {String} the string to test for
      * @param [caseInsensitive=false] {Boolean} whether to ignore case-sensivity
      * @return {Boolean} whether the string ends with &#x60;test&#x60;
      */
-     // NOTE: we ALWAYS set this method --&gt; ES6 native &#x60;startsWiths&#x60; lacks the second argument
-    StringPrototype.endsWith=function(test, caseInsensitive) {
-        return (new RegExp(test+&#x27;$&#x27;, caseInsensitive ? &#x27;i&#x27;: &#x27;&#x27;)).test(this);
+     // NOTE: ES6 native &#x60;endsWith&#x60; lacks the second argument
+    StringPrototype.itsa_endsWith = function(test, caseInsensitive) {
+        return (new RegExp(test+&quot;$&quot;, caseInsensitive ? &quot;i&quot;: &quot;&quot;)).test(this);
     };
 
     /**
      * Checks if the string can be parsed into a number when using &#x60;parseInt()&#x60;
      *
-     * @method parsable
+     * @method itsa_isParsable
      * @return {Boolean} whether the string is parsable
      */
-    String.parsable || (StringPrototype.parsable=function() {
+    StringPrototype.itsa_isParsable = function() {
         // strange enough, NaN doen&#x27;t let compare itself, so we need a strange test:
         // parseInt(value, 10)===parseInt(value, 10)
         // which returns &#x60;true&#x60; for a parsable value, otherwise false
         return (parseInt(this)===parseInt(this));
-    });
+    };
 
     /**
      * Checks if the string starts with the value specified by &#x60;test&#x60;
      *
-     * @method startsWith
+     * @method itsa_startsWith
      * @param test {String} the string to test for
      * @param [caseInsensitive=false] {Boolean} whether to ignore case-sensivity
      * @return {Boolean} whether the string starts with &#x60;test&#x60;
      */
-     // NOTE: we ALWAYS set this method --&gt; ES6 native &#x60;startsWiths&#x60; lacks the second argument
-    StringPrototype.startsWith=function(test, caseInsensitive) {
-        return (new RegExp(&#x27;^&#x27;+test, caseInsensitive ? &#x27;i&#x27;: &#x27;&#x27;)).test(this);
+     // NOTE: ES6 native &#x60;startsWith&#x60; lacks the second argument
+    StringPrototype.itsa_startsWith = function(test, caseInsensitive) {
+        return (new RegExp(&quot;^&quot;+test, caseInsensitive ? &quot;i&quot;: &quot;&quot;)).test(this);
     };
 
     /**
@@ -369,17 +362,17 @@
      *
      * @example
      * var greeting = &#x27;{message} {who}!&#x27;;
-     * greeting.substitute({message: &#x27;Hello&#x27;}); // results into &#x27;Hello !&#x27;
+     * greeting.itsa_substitute({message: &#x27;Hello&#x27;}); // results into &#x27;Hello !&#x27;
      *
-     * @method substitute
+     * @method itsa_substitute
      * @param obj {Object} Object containing replacement values.
      * @return {String} the substitute result.
      */
-    String.substitute || (StringPrototype.substitute=function(obj) {
-        return this.replace(SUBREGEX, function (match, key) {
-            return (obj[key]===undefined) ? &#x27;&#x27; : obj[key];
+    StringPrototype.itsa_substitute = function(obj) {
+        return this.itsa_replace(SUBREGEX, function (match, key) {
+            return (obj[key]===undefined) ? &quot;&quot; : obj[key];
         });
-    });
+    };
 
     /**
      * Returns a ISO-8601 Date-object build by the String&#x27;s value.
@@ -389,160 +382,151 @@
      *
      * @example
      * var birthday = &#x27;2010-02-10T14:45:30.000Z&#x27;;
-     * birthday.toDate(); // --&gt; Wed Feb 10 2010 15:45:30 GMT+0100 (CET)
+     * birthday.itsa_toDate(); // --&gt; Wed Feb 10 2010 15:45:30 GMT+0100 (CET)
      *
-     * @method toDate
+     * @method itsa_toDate
      * @return {Date|null} the Date represented by the String&#x27;s value or null when invalid
      */
-    String.toDate || (StringPrototype.toDate=function() {
+    StringPrototype.itsa_toDate = function() {
         return DATEPATTERN.test(this) ? new Date(this) : null;
-    });
+    };
 
     /**
      * Generated the string without any white-spaces at the start or end.
      *
-     * @method trim
+     * @method itsa_trim
      * @return {String} new String without leading and trailing white-spaces
      */
-    String.trim || (StringPrototype.trim=function() {
-        return this.replace(TRIMREGEX, &#x27;&#x27;);
-    });
+    StringPrototype.itsa_trim = function() {
+        return this.itsa_replace(TRIMREGEX, &quot;&quot;);
+    };
 
     /**
      * Generated the string without any white-spaces at the beginning.
      *
-     * @method trimLeft
+     * @method itsa_trimLeft
      * @return {String} new String without leading white-spaces
      */
-    String.trimLeft || (StringPrototype.trimLeft=function() {
-        return this.replace(TRIM_LEFT_REGEX, &#x27;&#x27;);
-    });
+    StringPrototype.itsa_trimLeft = function() {
+        return this.itsa_replace(TRIM_LEFT_REGEX, &quot;&quot;);
+    };
 
     /**
      * Generated the string without any white-spaces at the end.
      *
-     * @method trimRight
+     * @method itsa_trimRight
      * @return {String} new String without trailing white-spaces
      */
-    String.trimRight || (StringPrototype.trimRight=function() {
-        return this.replace(TRIM_RIGHT_REGEX, &#x27;&#x27;);
-    });
+    StringPrototype.itsa_trimRight = function() {
+        return this.itsa_replace(TRIM_RIGHT_REGEX, &quot;&quot;);
+    };
 
     /**
      * Replaces search-characters by a replacement. Replaces only the firts occurence.
      * Does not alter the String itself, but returns a new String with the replacement.
      *
-     * @method replace
+     * @method itsa_replace
      * @param search {String} the character(s) to be replaced
      * @param replacement {String} the replacement
      * @param [caseInsensitive=false] {Boolean} whether to do search case-insensitive
      * @return {String} new String with the replacement
      */
-    replaceBKP = StringPrototype.replace;
-    StringPrototype.replace=function(search, replacement, caseInsensitive) {
-        var re;
-        if (caseInsensitive) {
-            re = new RegExp(search, &#x27;i&#x27;);
-            return this.replace(re, replacement);
-        }
-        else {
-            return replaceBKP.apply(this, arguments);
-        }
+    StringPrototype.itsa_replace = function(search, replacement, caseInsensitive) {
+        return StringPrototype.replace.call(this, caseInsensitive ? new RegExp(search, &quot;i&quot;) : search, replacement);
     };
 
     /**
      * Replaces search-characters by a replacement. Replaces all occurences.
      * Does not alter the String itself, but returns a new String with the replacements.
      *
-     * @method replaceAll
+     * @method itsa_replaceAll
      * @param search {String} the character(s) to be replaced
      * @param replacement {String} the replacement
      * @param [caseInsensitive=false] {Boolean} whether to do search case-insensitive
      * @return {String} new String with the replacements
      */
-    String.replaceAll || (StringPrototype.replaceAll=function(search, replacement, caseInsensitive) {
-        var re = new RegExp(search, &#x27;g&#x27; + (caseInsensitive ? &#x27;i&#x27; : &#x27;&#x27;));
-        return this.replace(re, replacement);
-    });
+    StringPrototype.itsa_replaceAll=function(search, replacement, caseInsensitive) {
+        return StringPrototype.replace.call(this, new RegExp(search, &quot;g&quot; + (caseInsensitive ? &quot;i&quot; : &quot;&quot;)), replacement);
+    };
 
     /**
      * Validates if the String&#x27;s value represents a valid emailaddress.
      *
-     * @method validateEmail
+     * @method itsa_isValidEmail
      * @return {Boolean} whether the String&#x27;s value is a valid emailaddress.
      */
-    StringPrototype.validateEmail = function() {
+    StringPrototype.itsa_isValidEmail = function() {
         return PATTERN_EMAIL.test(this);
     };
 
     /**
      * Validates if the String&#x27;s value represents a valid floated number.
      *
-     * @method validateFloat
+     * @method itsa_isValidFloat
      * @param [comma] {Boolean} whether to use a comma as decimal separator instead of a dot
      * @return {Boolean} whether the String&#x27;s value is a valid floated number.
      */
-    StringPrototype.validateFloat = function(comma) {
+    StringPrototype.itsa_isValidFloat = function(comma) {
         return comma ? PATTERN_FLOAT_COMMA.test(this) : PATTERN_FLOAT_DOT.test(this);
     };
 
     /**
      * Validates if the String&#x27;s value represents a hexadecimal color.
      *
-     * @method validateHexaColor
+     * @method itsa_isValidHexaColor
      * @param [alpha=false] {Boolean} whether to accept alpha transparancy
      * @return {Boolean} whether the String&#x27;s value is a valid hexadecimal color.
      */
-    StringPrototype.validateHexaColor = function(alpha) {
+    StringPrototype.itsa_isValidHexaColor = function(alpha) {
         return alpha ? PATTERN_HEX_COLOR_ALPHA.test(this) : PATTERN_HEX_COLOR.test(this);
     };
 
     /**
      * Validates if the String&#x27;s value represents a valid integer number.
      *
-     * @method validateNumber
+     * @method itsa_isValidNumber
      * @return {Boolean} whether the String&#x27;s value is a valid integer number.
      */
-    StringPrototype.validateNumber = function() {
+    StringPrototype.itsa_isValidNumber = function() {
         return PATTERN_INTEGER.test(this);
     };
 
     /**
      * Validates if the String&#x27;s value represents a valid boolean.
      *
-     * @method validateBoolean
+     * @method itsa_isValidBoolean
      * @return {Boolean} whether the String&#x27;s value is a valid boolean.
      */
-    StringPrototype.validateBoolean = function() {
+    StringPrototype.itsa_isValidBoolean = function() {
         var length = this.length,
             check;
         if ((length&lt;4) || (length&gt;5)) {
             return false;
         }
         check = this.toUpperCase();
-        return ((check===&#x27;TRUE&#x27;) || (check===&#x27;FALSE&#x27;));
+        return ((check===&quot;TRUE&quot;) || (check===&quot;FALSE&quot;));
     };
 
     /**
      * Validates if the String&#x27;s value represents a valid Date.
      *
-     * @method validateDate
+     * @method itsa_isValidDate
      * @return {Boolean} whether the String&#x27;s value is a valid Date object.
      */
-    StringPrototype.validateDate = function() {
+    StringPrototype.itsa_isValidDate = function() {
         return DATEPATTERN.test(this);
     };
 
     /**
      * Validates if the String&#x27;s value represents a valid URL.
      *
-     * @method validateURL
+     * @method itsa_isValidURL
      * @param [options] {Object}
      * @param [options.http] {Boolean} to force matching starting with &#x60;http://&#x60;
      * @param [options.https] {Boolean} to force matching starting with &#x60;https://&#x60;
      * @return {Boolean} whether the String&#x27;s value is a valid URL.
      */
-    StringPrototype.validateURL = function(options) {
+    StringPrototype.itsa_isValidURL = function(options) {
         var instance = this;
         options || (options={});
         if (options.http &amp;&amp; options.https) {

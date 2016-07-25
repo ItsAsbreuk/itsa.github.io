@@ -43,10 +43,6 @@
             
                 <li><a href="../classes/Array.html">Array</a></li>
             
-                <li><a href="../classes/BaseClass.html">BaseClass</a></li>
-            
-                <li><a href="../classes/Classes.html">Classes</a></li>
-            
                 <li><a href="../classes/Constrain.html">Constrain</a></li>
             
                 <li><a href="../classes/DB.html">DB</a></li>
@@ -163,8 +159,6 @@
             
                 <li><a href="../modules/extend-element.html">extend-element</a></li>
             
-                <li><a href="../modules/extra_classes.js.html">extra/classes.js</a></li>
-            
                 <li><a href="../modules/focusmanager.html">focusmanager</a></li>
             
                 <li><a href="../modules/html-parser.html">html-parser</a></li>
@@ -276,7 +270,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files/src_js-ext_lib_json.js.html#l1"><code>src&#x2F;js-ext&#x2F;lib&#x2F;json.js:1</code></a>
+            Defined in: <a href="../files/src_itsa-jsext_lib_json.js.html#l1"><code>src&#x2F;itsa-jsext&#x2F;lib&#x2F;json.js:1</code></a>
         </div>
     
 
@@ -324,17 +318,17 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method">
-                                <a href="#method_isObject">isObject</a>
+                                <a href="#method_itsa_parseWithDate">itsa_parseWithDate</a>
 
-                                
-                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_parseWithDate">parseWithDate</a>
+                                <a href="#method_itsa_stringToDates">itsa_stringToDates</a>
 
+                                
+                                    <span class="flag static">static</span>
                                 
                                 
                             </li>
@@ -355,8 +349,115 @@
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method_isObject" class="method item">
-    <h3 class="name"><code>isObject</code></h3>
+                    <div id="method_itsa_parseWithDate" class="method item">
+    <h3 class="name"><code>itsa_parseWithDate</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>stringifiedObj</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a> | Undefined</span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/src_itsa-jsext_lib_json.js.html#l59"><code>src&#x2F;itsa-jsext&#x2F;lib&#x2F;json.js:59</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Parses a stringified object and creates true <code>Date</code> properties.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">stringifiedObj</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>lower-edgde</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a> | Undefined</span>:
+                    
+                    <p>the value, forced to be inbetween the edges. Returns <code>undefined</code> if <code>max</code> is lower than <code>min</code>.</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_itsa_stringToDates" class="method item">
+    <h3 class="name"><code>itsa_stringToDates</code></h3>
 
     
         <div class="args">
@@ -409,7 +510,7 @@
             
         
         
-        <a href="../files/src_js-ext_lib_json.js.html#l68"><code>src&#x2F;js-ext&#x2F;lib&#x2F;json.js:68</code></a>
+        <a href="../files/src_itsa-jsext_lib_json.js.html#l70"><code>src&#x2F;itsa-jsext&#x2F;lib&#x2F;json.js:70</code></a>
         
         </p>
 
@@ -478,113 +579,6 @@ better leave it <code>false</code>, which will lead into changing <code>item</co
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a> | <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>:
                     
                     <p>the transormed item</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method_parseWithDate" class="method item">
-    <h3 class="name"><code>parseWithDate</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>stringifiedObj</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a> | Undefined</span>
-        </span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/src_js-ext_lib_json.js.html#l57"><code>src&#x2F;js-ext&#x2F;lib&#x2F;json.js:57</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Parses a stringified object and creates true <code>Date</code> properties.</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">stringifiedObj</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>lower-edgde</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a> | Undefined</span>:
-                    
-                    <p>the value, forced to be inbetween the edges. Returns <code>undefined</code> if <code>max</code> is lower than <code>min</code>.</p>
 
                 
             </div>

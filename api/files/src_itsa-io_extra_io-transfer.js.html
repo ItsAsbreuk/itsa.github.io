@@ -43,10 +43,6 @@
             
                 <li><a href="../classes/Array.html">Array</a></li>
             
-                <li><a href="../classes/BaseClass.html">BaseClass</a></li>
-            
-                <li><a href="../classes/Classes.html">Classes</a></li>
-            
                 <li><a href="../classes/Constrain.html">Constrain</a></li>
             
                 <li><a href="../classes/DB.html">DB</a></li>
@@ -162,8 +158,6 @@
                 <li><a href="../modules/extend-document.html">extend-document</a></li>
             
                 <li><a href="../modules/extend-element.html">extend-element</a></li>
-            
-                <li><a href="../modules/extra_classes.js.html">extra/classes.js</a></li>
             
                 <li><a href="../modules/focusmanager.html">focusmanager</a></li>
             
@@ -461,6 +455,7 @@ module.exports = function (window) {
      *    @param [options.withCredentials=false] {boolean} Whether or not to send credentials on the request.
      *    @param [options.parseJSONDate=false] {boolean} Whether the server returns JSON-stringified data which has Date-objects.
      *    @param [options.parseProto] {Object} to set the prototype of any object.
+     *    @param [options.preventCache=false] {boolean} whether to prevent caching --&gt; a timestamp is added by parameter _ts
      *    @param [options.parseProtoCheck] {Function} to determine in what case the specified &#x60;parseProto&#x60; should be set as the prototype.
      *            The function accepts the &#x60;object&#x60; as argument and should return a trully value in order to set the prototype.
      *            When not specified, &#x60;parseProto&#x60; will always be applied (if &#x60;parseProto&#x60;is defined)
@@ -479,6 +474,10 @@ module.exports = function (window) {
         options.url = url;
         options.method = &#x27;GET&#x27;;
         options.data = params;
+        if (options.preventCache) {
+            options.data || (options.data={});
+            options.data._ts = Date.now();
+        }
         options.headers.Accept = &#x27;application/json&#x27;;
         // we don&#x27;t want the user to re-specify the server&#x27;s responsetype:
         delete options.responseType;
